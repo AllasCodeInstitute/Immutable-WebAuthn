@@ -3,7 +3,7 @@ import { returnsNext, stub } from '@std/testing/mock';
 
 import { _getWebCryptoInternals, getWebCrypto, MissingWebCrypto } from './getWebCrypto.ts';
 
-Deno.test('should return globalThis.crypto when present', async () => {
+test('should return globalThis.crypto when present', async () => {
   // Clear whatever version of crypto might have been set
   _getWebCryptoInternals.setCachedCrypto(undefined);
 
@@ -23,7 +23,7 @@ Deno.test('should return globalThis.crypto when present', async () => {
   mockGlobalThisCrypto.restore();
 });
 
-Deno.test('should raise MissingWebCrypto error when nothing is available', async () => {
+test('should raise MissingWebCrypto error when nothing is available', async () => {
   // Clear whatever version of crypto might have been set
   _getWebCryptoInternals.setCachedCrypto(undefined);
 

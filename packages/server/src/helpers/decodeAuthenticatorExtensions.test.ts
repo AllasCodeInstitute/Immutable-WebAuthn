@@ -3,7 +3,7 @@ import { assertObjectMatch } from '@std/assert';
 import { decodeAuthenticatorExtensions } from './decodeAuthenticatorExtensions.ts';
 import { isoUint8Array } from './iso/index.ts';
 
-Deno.test('should decode authenticator extensions', () => {
+test('should decode authenticator extensions', () => {
   const extensions = decodeAuthenticatorExtensions(
     isoUint8Array.fromHex(
       'A16C6465766963655075624B6579A56364706B584DA5010203262001215820991AABED9D' +

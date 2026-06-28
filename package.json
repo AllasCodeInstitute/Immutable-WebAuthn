@@ -1,0 +1,36 @@
+{
+  "name": "immutable-webauthn",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/browser",
+    "packages/server",
+    "packages/types"
+  ],
+  "scripts": {
+    "version": "bun run whatGotUpdated.ts",
+    "test": "bun test packages/browser/src packages/server/src",
+    "test:browser": "bun test packages/browser/src",
+    "test:server": "bun test packages/server/src",
+    "test:coverage": "bun test --coverage packages/browser/src packages/server/src",
+    "codegen:types": "bun run --cwd packages/types codegen",
+    "build:browser": "bun run --cwd packages/browser build",
+    "build:server": "bun run --cwd packages/server build",
+    "publish:browser": "bun run --cwd packages/browser publish",
+    "publish:server": "bun run --cwd packages/server publish"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.26.0",
+    "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-replace": "^6.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/bun": "latest",
+    "@types/node": "^24.5.1",
+    "jsdom": "^25.0.1",
+    "rollup": "^4.27.3",
+    "rollup-plugin-version-injector": "^1.3.3",
+    "ts-morph": "^24.0.0",
+    "typescript": "^5.6.3"
+  }
+}

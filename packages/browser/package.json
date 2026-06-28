@@ -1,0 +1,18 @@
+{
+  "name": "@simplewebauthn/browser",
+  "version": "13.3.0",
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "build": "bun run build_npm.ts",
+    "test": "bun test src/",
+    "test:watch": "bun test --watch src/",
+    "docs:serve": "python -m http.server -b 127.0.0.1 -d docs",
+    "docs:html": "bunx typedoc --out docs src/index.ts",
+    "docs:lint": "bunx typedoc --validation src/index.ts",
+    "publish": "bun run publish:jsr && bun run publish:npm",
+    "publish:jsr": "bun publish",
+    "publish:npm": "(cd npm; npm publish)"
+  },
+  "dependencies": {}
+}

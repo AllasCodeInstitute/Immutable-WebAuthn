@@ -3,14 +3,14 @@ import { assertSpyCalls, spy } from '@std/testing/mock';
 
 import { WebAuthnAbortService } from './webAuthnAbortService.ts';
 
-Deno.test('should create a new abort signal every time', () => {
+test('should create a new abort signal every time', () => {
   const signal1 = WebAuthnAbortService.createNewAbortSignal();
   const signal2 = WebAuthnAbortService.createNewAbortSignal();
 
   assertNotEquals(signal2, signal1);
 });
 
-Deno.test('should call abort() with AbortError on existing controller when creating a new signal', () => {
+test('should call abort() with AbortError on existing controller when creating a new signal', () => {
   // Populate `.controller`
   WebAuthnAbortService.createNewAbortSignal();
 
@@ -29,7 +29,7 @@ Deno.test('should call abort() with AbortError on existing controller when creat
   assertEquals(abortReason.name, 'AbortError');
 });
 
-Deno.test('should cancel active WebAuthn ceremony when manually cancelled', () => {
+test('should cancel active WebAuthn ceremony when manually cancelled', () => {
   // Populate `.controller`
   WebAuthnAbortService.createNewAbortSignal();
 

@@ -4,7 +4,7 @@ let webCrypto: Crypto | undefined = undefined;
 
 /**
  * Try to get an instance of the Crypto API from the current runtime. Should support Node,
- * as well as others, like Deno, that implement Web APIs.
+ * as well as others, like Bun, that implement Web APIs.
  */
 export function getWebCrypto(): Promise<Crypto> {
   /**

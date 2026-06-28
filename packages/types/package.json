@@ -1,0 +1,12 @@
+{
+  "name": "@simplewebauthn/types-unpublished",
+  "version": "do-not-publish-this-package",
+  "type": "module",
+  "exports": "./src/index.ts",
+  "scripts": {
+    "extract-dom-types": "bun run extract-dom-types.ts",
+    "codegen": "bun run codegen.ts"
+  },
+  "dependencies": {},
+  "private": true
+}

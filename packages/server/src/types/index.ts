@@ -1,11 +1,11 @@
-// deno-fmt-ignore-file
+// bun-format-ignore-file
 /**
  * DO NOT MODIFY THESE FILES!
  *
  * These files were copied from the **types** package. To update this file, make changes to those
  * files instead and then run the following command from the monorepo root folder:
  *
- * deno task codegen:types
+ * bun run codegen:types
  */
 // BEGIN CODEGEN
 import type {
@@ -301,10 +301,9 @@ export type AttestationFormat =
  * **Context**
  *
  * `Uint8Array` became a generic type in TypeScript 5.7, requiring types defined simply as
- * `Uint8Array` to be refactored to `Uint8Array<ArrayBuffer>` starting in Deno 2.2. `Uint8Array` is
- * _not_ generic in Deno 2.1.x and earlier, though, so this type helps bridge this gap.
+ * `Uint8Array` to be refactored to `Uint8Array<ArrayBuffer>` in newer TypeScript DOM typings. This type helps bridge runtime and compiler differences.
  *
- * Inspired by Deno's std library:
+ * Inspired by portable byte-array helpers:
  *
  * https://github.com/denoland/std/blob/b5a5fe4f96b91c1fe8dba5cc0270092dd11d3287/bytes/_types.ts#L11
  */

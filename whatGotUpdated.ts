@@ -3,11 +3,10 @@
  * git tag version. These packages will become candidates for version bumps.
  */
 
-// Grab workspace folders from root deno.json
-import rootDenoJSON from './deno.json' with { type: 'json' };
+// Grab workspace folders from root package.json
+import rootPackageJSON from './package.json' with { type: 'json' };
 
-// Trim relative path specifier so we end up with ["packages/browser", ...]
-const workspaceDirs = rootDenoJSON.workspace.map((path) => path.substring(2));
+const workspaceDirs = rootPackageJSON.workspaces;
 
 // Check which files have been updated since the last git tag
 console.log('Getting latest version tag...');
@@ -29,16 +28,16 @@ if (changedPackages.length < 1) {
   console.log('📦 The following workspace packages need new versions published:');
 
   for (const matched of changedPackages) {
-    // Read current versions from corresponding deno.json files
-    const packageDenoJSONPath = `./${matched}/deno.json`;
-    const { default: packageDenoJSON } = await import(packageDenoJSONPath, {
+    // Read current versions from corresponding package.json files
+    const packageJSONPath = `./${matched}/package.json`;
+    const { default: packageJSON } = await import(packageJSONPath, {
       with: { type: 'json' },
     });
 
     // Output package names and their current versions to consider incrementing
     const formattedMatched = `@simplewebauthn/${matched.split('/')[1]}`;
     console.log(
-      `\x1B[1m${formattedMatched}\x1B[m (current version: ${packageDenoJSON.version} @ ${packageDenoJSONPath})`,
+      `\x1B[1m${formattedMatched}\x1B[m (current version: ${packageJSON.version} @ ${packageJSONPath})`,
     );
   }
 }
@@ -47,21 +46,19 @@ if (changedPackages.length < 1) {
  * Grab the latest version tag from Git
  */
 async function getLatestVersionTag(): Promise<string> {
-  const command = new Deno.Command('git', {
-    args: [
-      'describe',
-      '--tags',
-      '--abbrev=0',
-    ],
-  });
-
-  const { code, stdout, stderr } = await command.output();
+  const proc = Bun.spawn(['git', 'describe', '--tags', '--abbrev=0']);
+  const [stdout, stderr, code] = await Promise.all([
+    new Response(proc.stdout).text(),
+    new Response(proc.stderr).text(),
+    proc.exited,
+  ]);
 
   if (code !== 0) {
-    throw new Error(new TextDecoder().decode(stderr));
+    console.warn('No version tags found; comparing against HEAD.');
+    return 'HEAD';
   }
 
-  const output = new TextDecoder().decode(stdout);
+  const output = stdout;
   const toReturn = output.trim();
 
   // Verify we got something back that looks like a typical version tag
@@ -76,21 +73,19 @@ async function getLatestVersionTag(): Promise<string> {
  * Get the list of files changed since the provided version tag
  */
 async function getChangedFilesSinceTag(tagName: string): Promise<string[]> {
-  const command = new Deno.Command('git', {
-    args: [
-      'diff',
-      '--name-only',
-      `${tagName}..HEAD`,
-    ],
-  });
-
-  const { code, stdout, stderr } = await command.output();
+  const diffArgs = tagName === 'HEAD' ? ['git', 'diff', '--name-only', 'HEAD'] : ['git', 'diff', '--name-only', `${tagName}..HEAD`];
+  const proc = Bun.spawn(diffArgs);
+  const [stdout, stderr, code] = await Promise.all([
+    new Response(proc.stdout).text(),
+    new Response(proc.stderr).text(),
+    proc.exited,
+  ]);
 
   if (code !== 0) {
-    throw new Error(new TextDecoder().decode(stderr));
+    throw new Error(stderr);
   }
 
-  const output = new TextDecoder().decode(stdout);
+  const output = stdout;
 
   const toReturn = output.split('\n');
 
@@ -108,11 +103,11 @@ function getChangedWorkspacePackages(changedFiles: string[], workspaceDirs: stri
       // Check if a package's source code has been modified
       if (file.startsWith(`${workspace}/src`)) {
         matchedPackages.add(workspace);
-      } else if (file === `${workspace}/deno.json`) {
+      } else if (file === `${workspace}/package.json`) {
         matchedPackages.add(workspace);
       }
     }
   }
 
-  return matchedPackages.values().toArray();
+  return Array.from(matchedPackages.values());
 }

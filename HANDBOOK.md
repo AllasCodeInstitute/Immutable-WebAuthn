@@ -6,12 +6,12 @@ Notes for myself that I don't want cluttering up the README
 
 ### Step 0: Things you might have missed
 
-#### Did you update to a newer version of **Deno**?
+#### Did you update to a newer version of **Bun**?
 
 Run this first to update **packages/types/dom.ts** then commit the changes:
 
 ```
-deno task codegen:types
+bun run codegen:types
 ```
 
 ### Step 1: Determine which packages need to be published
@@ -19,15 +19,15 @@ deno task codegen:types
 Run this command to determine which packages need entries in CHANGELOG.md:
 
 ```
-deno task version
+bun run version
 ```
 
 ### Step 2: Update package versions
 
-Update `"version"` in the following **deno.json** files for each package that needs a new release:
+Update `"version"` in the following **package.json** files for each package that needs a new release:
 
-- **@simplewebauthn/browser**: [packages/browser/deno.json](./packages/browser/deno.json)
-- **@simplewebauthn/server**: [packages/server/deno.json](./packages/server/deno.json)
+- **@simplewebauthn/browser**: [packages/browser/package.json](./packages/browser/package.json)
+- **@simplewebauthn/server**: [packages/server/package.json](./packages/server/package.json)
 
 Continue using your best judgement on what an appropriate new version number should be.
 

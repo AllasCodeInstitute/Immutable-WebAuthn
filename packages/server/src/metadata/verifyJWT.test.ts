@@ -1,17 +1,16 @@
 import { assert, assertFalse } from '@std/assert';
-import { lessThan, parse } from '@std/semver';
 
 import { verifyJWT } from './verifyJWT.ts';
 import { convertPEMToBytes } from '../helpers/convertPEMToBytes.ts';
 import { Apple_WebAuthn_Root_CA } from '../services/defaultRootCerts/apple.ts';
 
-Deno.test('should verify MDS blob', async () => {
+test('should verify MDS blob', async () => {
   const verified = await verifyJWT(blob, leafCert);
 
   assert(verified);
 });
 
-Deno.test('should fail to verify a JWT with a bad signature', async () => {
+test('should fail to verify a JWT with a bad signature', async () => {
   const badSig = blob.substring(0, blob.length - 1);
 
   const verified = await verifyJWT(badSig, leafCert);
@@ -19,13 +18,8 @@ Deno.test('should fail to verify a JWT with a bad signature', async () => {
   assertFalse(verified);
 });
 
-Deno.test(
+test(
   'should fail to verify when leaf cert contains unexpected public key',
-  /**
-   * Deno v2.1 and earlier couldn't handle a key curve of P-384 using a hash alg of SHA-256
-   * See https://github.com/denoland/deno/issues/20198
-   */
-  { ignore: lessThan(parse(Deno.version.deno), parse('2.2.0')) },
   async () => {
     const verified = await verifyJWT(
       blob,

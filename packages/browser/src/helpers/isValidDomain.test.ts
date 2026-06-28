@@ -1,11 +1,11 @@
 import { assert, assertFalse } from '@std/assert';
 import { isValidDomain } from './isValidDomain.ts';
 
-Deno.test('should handle localhost', () => {
+test('should handle localhost', () => {
   assert(isValidDomain('localhost'));
 });
 
-Deno.test('should handle standard ASCII domains and labels', () => {
+test('should handle standard ASCII domains and labels', () => {
   assert(isValidDomain('example.com'));
   assert(isValidDomain('my-site.io'));
   assert(isValidDomain('sub.example.co.uk'));
@@ -13,7 +13,7 @@ Deno.test('should handle standard ASCII domains and labels', () => {
   assertFalse(isValidDomain(''));
 });
 
-Deno.test('should handle punycode domains', () => {
+test('should handle punycode domains', () => {
   // Punycode label with ascii domain
   assert(isValidDomain('xn--5lwo46cp2i.co.jp'));
   assert(isValidDomain('xn--5lwo46cp2i.jp'));

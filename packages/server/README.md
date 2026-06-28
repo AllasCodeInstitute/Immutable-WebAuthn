@@ -6,7 +6,7 @@
 
 - [Installation](#installation)
   - [Node LTS 20.x and higher](#node-lts-20x-and-higher)
-  - [Deno v1.43 and higher](#deno-v143-and-higher)
+  - [Bun 1.2 and higher](#bun-12-and-higher)
 - [Documentation](#documentation)
 - [Supported Attestation Formats](#supported-attestation-formats)
 
@@ -21,10 +21,10 @@ and **[JSR](https://jsr.io/@simplewebauthn/server)**:
 npm install @simplewebauthn/server
 ```
 
-### Deno v1.43 and higher
+### Bun 1.2 and higher
 
 ```sh
-deno add jsr:@simplewebauthn/server
+bun add @simplewebauthn/server
 ```
 
 ## Documentation

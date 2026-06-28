@@ -2,7 +2,7 @@ import { assertEquals, assertRejects } from '@std/assert';
 
 import { verifyRegistrationResponse } from '../verifyRegistrationResponse.ts';
 
-Deno.test('should verify (broken) Packed response from Chrome virtual authenticator', async () => {
+test('should verify (broken) Packed response from Chrome virtual authenticator', async () => {
   /**
    * Chrome 89's WebAuthn dev tool enables developers to use "virtual" software authenticators in place
    * of typical authenticator hardware. Unfortunately a bug in these authenticators has leaf certs
@@ -35,7 +35,7 @@ Deno.test('should verify (broken) Packed response from Chrome virtual authentica
   assertEquals(verification.verified, true);
 });
 
-Deno.test(
+test(
   'should succeed if id-fido-gen-ce-aaguid extension is present and matches AAGUID in auth data',
   async () => {
     const verification = await verifyRegistrationResponse({
@@ -69,7 +69,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+test(
   'should fail if id-fido-gen-ce-aaguid extension is present and does not match AAGUID in auth data',
   async () => {
     // const response = await ;

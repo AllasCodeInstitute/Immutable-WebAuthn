@@ -1,8 +1,8 @@
-// deno-fmt-ignore-file
+// bun-format-ignore-file
 /**
  * Generated from typescript@5.6.3
  * To regenerate, run the following command from the package root:
- * deno task extract-dom-types
+ * bun run extract-dom-types
  */
 // BEGIN CODEGEN
 /**

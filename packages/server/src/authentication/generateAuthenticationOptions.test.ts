@@ -9,7 +9,7 @@ const challengeBuffer = isoBase64URL.toBuffer(challengeString);
 
 const rpID = 'simplewebauthn.dev';
 
-Deno.test('should generate credential request options suitable for sending via JSON', async () => {
+test('should generate credential request options suitable for sending via JSON', async () => {
   const options = await generateAuthenticationOptions({
     rpID,
     allowCredentials: [
@@ -48,7 +48,7 @@ Deno.test('should generate credential request options suitable for sending via J
   });
 });
 
-Deno.test('defaults to 60 seconds if no timeout is specified', async () => {
+test('defaults to 60 seconds if no timeout is specified', async () => {
   const options = await generateAuthenticationOptions({
     rpID,
     challenge: challengeBuffer,
@@ -61,7 +61,7 @@ Deno.test('defaults to 60 seconds if no timeout is specified', async () => {
   assertEquals(options.timeout, 60000);
 });
 
-Deno.test('should set userVerification to "preferred" if not specified', async () => {
+test('should set userVerification to "preferred" if not specified', async () => {
   const options = await generateAuthenticationOptions({
     rpID,
     challenge: challengeBuffer,
@@ -74,13 +74,13 @@ Deno.test('should set userVerification to "preferred" if not specified', async (
   assertEquals(options.userVerification, 'preferred');
 });
 
-Deno.test('should not set allowCredentials if not specified', async () => {
+test('should not set allowCredentials if not specified', async () => {
   const options = await generateAuthenticationOptions({ rpID });
 
   assertEquals(options.allowCredentials, undefined);
 });
 
-Deno.test('should generate without params', async () => {
+test('should generate without params', async () => {
   const options = await generateAuthenticationOptions({ rpID });
   const { challenge, ...otherFields } = options;
   assertEquals(otherFields, {
@@ -93,7 +93,7 @@ Deno.test('should generate without params', async () => {
   assertEquals(typeof challenge, 'string');
 });
 
-Deno.test('should set userVerification if specified', async () => {
+test('should set userVerification if specified', async () => {
   const options = await generateAuthenticationOptions({
     rpID,
     challenge: challengeBuffer,
@@ -107,7 +107,7 @@ Deno.test('should set userVerification if specified', async () => {
   assertEquals(options.userVerification, 'required');
 });
 
-Deno.test('should set extensions if specified', async () => {
+test('should set extensions if specified', async () => {
   const options = await generateAuthenticationOptions({
     rpID,
     challenge: challengeBuffer,
@@ -121,7 +121,7 @@ Deno.test('should set extensions if specified', async () => {
   assertEquals(options.extensions, { appid: 'simplewebauthn' });
 });
 
-Deno.test('should generate a challenge if one is not provided', async () => {
+test('should generate a challenge if one is not provided', async () => {
   // @ts-ignore 2345
   const options = await generateAuthenticationOptions({
     rpID,
@@ -136,7 +136,7 @@ Deno.test('should generate a challenge if one is not provided', async () => {
   assert(isoBase64URL.isBase64URL(options.challenge));
 });
 
-Deno.test('should treat string challenges as UTF-8 strings', async () => {
+test('should treat string challenges as UTF-8 strings', async () => {
   const options = await generateAuthenticationOptions({
     rpID,
     challenge: 'こんにちは',

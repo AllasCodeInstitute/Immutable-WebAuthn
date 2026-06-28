@@ -7,7 +7,7 @@ import { BaseMetadataService } from './metadataService.ts';
  * fail CI when MDS is having a bad day. I'm going to ignore it for now but keep it around as a
  * good end-to-end test to have on-hand to run locally.
  */
-Deno.test('should be able to load from FIDO MDS and get statement for YubiKey 5', { ignore: true }, async () => {
+test('should be able to load from FIDO MDS and get statement for YubiKey 5', { ignore: true }, async () => {
   const service = new BaseMetadataService();
 
   await service.initialize();

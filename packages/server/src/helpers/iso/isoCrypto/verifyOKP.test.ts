@@ -4,7 +4,7 @@ import { COSEALG, COSECRV, COSEKEYS, COSEKTY, COSEPublicKeyOKP } from '../../cos
 import { verifyOKP } from './verifyOKP.ts';
 import { isoBase64URL } from '../index.ts';
 
-Deno.test(
+test(
   'should verify a signature signed with an Ed25519 public key',
   async () => {
     const cosePublicKey: COSEPublicKeyOKP = new Map();

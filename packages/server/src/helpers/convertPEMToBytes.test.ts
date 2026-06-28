@@ -3,7 +3,7 @@ import { assertEquals } from '@std/assert';
 import { isoBase64URL } from './iso/index.ts';
 import { convertPEMToBytes } from './convertPEMToBytes.ts';
 
-Deno.test('should handle malformed cert with leading whitespaces', () => {
+test('should handle malformed cert with leading whitespaces', () => {
   const output = convertPEMToBytes(malformedLeadingWhitespace);
 
   assertEquals(

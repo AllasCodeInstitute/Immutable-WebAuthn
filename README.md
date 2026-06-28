@@ -23,7 +23,7 @@ incorporate WebAuthn into a website. The following packages are maintained here:
 ## Installation
 
 SimpleWebAuthn can be installed from **[NPM](https://www.npmjs.com/search?q=%40simplewebauthn)** and
-**[JSR](https://jsr.io/@simplewebauthn)** in **Node LTS 20.x and higher**, **Deno v1.43 and higher**
+**[JSR](https://jsr.io/@simplewebauthn)** in **Node LTS 20.x and higher**, **Bun 1.2 and higher**
 projects, and other compatible runtimes (Cloudflare Workers, Bun, etc...)
 
 See the packages' READMEs for more specific installation information.
@@ -82,25 +82,25 @@ request new features, or to suggest changes to existing features.
 
 Install the following before proceeding:
 
-- **Deno v2.4.x**
+- **Bun 1.2.x**
 
 After pulling down the code, set up dependencies:
 
 ```sh
-$> deno install
+$> bun install
 ```
 
 To run unit tests for all workspace packages, use the `test` series of scripts:
 
 ```sh
 # Run an individual package's tests
-$> cd packages/browser/ && deno task test
-$> cd packages/server/ && deno task test
+$> cd packages/browser/ && bun run test
+$> cd packages/server/ && bun run test
 ```
 
 Tests can be run in watch mode with the `test:watch` series of scripts:
 
 ```sh
-$> cd packages/browser/ && deno task test:watch
-$> cd packages/server/ && deno task test:watch
+$> cd packages/browser/ && bun run test:watch
+$> cd packages/server/ && bun run test:watch
 ```

@@ -4,7 +4,7 @@ import { FakeTime } from '@std/testing/time';
 import { validateCertificatePath } from './validateCertificatePath.ts';
 import { generateLeafCert, generateRootCert } from './tests/x509Utils.ts';
 
-Deno.test('should reject x5c containing self-signed root certificate', async () => {
+test('should reject x5c containing self-signed root certificate', async () => {
   /**
    * This test generates X.509 certificates to ensure that the following hypothetical/malicious
    * certificate chain in x5c will be rejected:
@@ -56,7 +56,7 @@ Deno.test('should reject x5c containing self-signed root certificate', async () 
   );
 });
 
-Deno.test('should validate valid certificate chain', async () => {
+test('should validate valid certificate chain', async () => {
   using _fakedNow = new FakeTime(new Date('2026-06-08'));
 
   const notBefore = new Date('2026-06-07');
@@ -78,7 +78,7 @@ Deno.test('should validate valid certificate chain', async () => {
   assert(validated);
 });
 
-Deno.test('should raise on not-yet-valid leaf certificate', async () => {
+test('should raise on not-yet-valid leaf certificate', async () => {
   using _fakedNow = new FakeTime(new Date('2026-06-08'));
 
   const notBefore = new Date('2026-06-07');
@@ -103,7 +103,7 @@ Deno.test('should raise on not-yet-valid leaf certificate', async () => {
   );
 });
 
-Deno.test('should raise on not-yet-valid trust anchor certificate', async () => {
+test('should raise on not-yet-valid trust anchor certificate', async () => {
   using _fakedNow = new FakeTime(new Date('2026-06-08'));
 
   const notBefore = new Date('2026-06-07');
@@ -131,7 +131,7 @@ Deno.test('should raise on not-yet-valid trust anchor certificate', async () => 
   );
 });
 
-Deno.test('should raise on expired leaf certificate', async () => {
+test('should raise on expired leaf certificate', async () => {
   using _fakedNow = new FakeTime(new Date('2026-06-08'));
 
   const notBefore = new Date('2026-06-07');
@@ -156,7 +156,7 @@ Deno.test('should raise on expired leaf certificate', async () => {
   );
 });
 
-Deno.test('should raise on expired trust anchor certificate', async () => {
+test('should raise on expired trust anchor certificate', async () => {
   using _fakedNow = new FakeTime(new Date('2026-06-08'));
 
   const notBefore = new Date('2026-06-07');
@@ -184,7 +184,7 @@ Deno.test('should raise on expired trust anchor certificate', async () => {
   );
 });
 
-Deno.test('should raise when x5c does not chain to trust anchor', async () => {
+test('should raise when x5c does not chain to trust anchor', async () => {
   using _fakedNow = new FakeTime(new Date('2026-06-08'));
 
   const notBefore = new Date('2026-06-07');

@@ -8,7 +8,7 @@
 
 - [Installation](#installation)
   - [Node LTS 20.x and higher](#node-lts-20x-and-higher)
-  - [Deno v1.43 and higher](#deno-v143-and-higher)
+  - [Bun 1.2 and higher](#bun-12-and-higher)
   - [UMD](#umd)
     - [ES2021](#es2021)
     - [ES5](#es5)
@@ -25,10 +25,10 @@ and **[JSR](https://jsr.io/@simplewebauthn/browser)**:
 npm install @simplewebauthn/browser
 ```
 
-### Deno v1.43 and higher
+### Bun 1.2 and higher
 
 ```sh
-deno add jsr:@simplewebauthn/browser
+bun add @simplewebauthn/browser
 ```
 
 ### UMD

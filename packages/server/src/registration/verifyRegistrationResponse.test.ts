@@ -29,7 +29,7 @@ SettingsService.setRootCertificates({
   certificates: [],
 });
 
-Deno.test('should verify FIDO U2F attestation', async () => {
+test('should verify FIDO U2F attestation', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationFIDOU2F,
     expectedChallenge: attestationFIDOU2FChallenge,
@@ -64,7 +64,7 @@ Deno.test('should verify FIDO U2F attestation', async () => {
   assertEquals(verification.registrationInfo?.rpID, 'dev.dontneeda.pw');
 });
 
-Deno.test('should verify Packed (EC2) attestation', async () => {
+test('should verify Packed (EC2) attestation', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationPacked,
     expectedChallenge: attestationPackedChallenge,
@@ -87,7 +87,7 @@ Deno.test('should verify Packed (EC2) attestation', async () => {
   );
 });
 
-Deno.test('should verify Packed (X5C) attestation', async () => {
+test('should verify Packed (X5C) attestation', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationPackedX5C,
     expectedChallenge: attestationPackedX5CChallenge,
@@ -111,7 +111,7 @@ Deno.test('should verify Packed (X5C) attestation', async () => {
   );
 });
 
-Deno.test('should verify None attestation', async () => {
+test('should verify None attestation', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationNone,
     expectedChallenge: attestationNoneChallenge,
@@ -138,7 +138,7 @@ Deno.test('should verify None attestation', async () => {
   );
 });
 
-Deno.test('should verify None attestation w/RSA public key', async () => {
+test('should verify None attestation w/RSA public key', async () => {
   const expectedChallenge = 'pYZ3VX2yb8dS9yplNxJChiXhPGBk8gZzTAyJ2iU5x1k';
   const verification = await verifyRegistrationResponse({
     response: {
@@ -179,7 +179,7 @@ Deno.test('should verify None attestation w/RSA public key', async () => {
   assertEquals(verification.registrationInfo?.rpID, 'dev.dontneeda.pw');
 });
 
-Deno.test('should throw when response challenge is not expected value', async () => {
+test('should throw when response challenge is not expected value', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -193,7 +193,7 @@ Deno.test('should throw when response challenge is not expected value', async ()
   );
 });
 
-Deno.test('should throw when response origin is not expected value', async () => {
+test('should throw when response origin is not expected value', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -207,7 +207,7 @@ Deno.test('should throw when response origin is not expected value', async () =>
   );
 });
 
-Deno.test('should throw when response type is not expected value', async () => {
+test('should throw when response type is not expected value', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -222,7 +222,7 @@ Deno.test('should throw when response type is not expected value', async () => {
   );
 });
 
-Deno.test('should throw when response type is not in list of expected types', async () => {
+test('should throw when response type is not in list of expected types', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -237,7 +237,7 @@ Deno.test('should throw when response type is not in list of expected types', as
   );
 });
 
-Deno.test('should throw when attestation type is not webauthn.create', async () => {
+test('should throw when attestation type is not webauthn.create', async () => {
   const origin = 'https://dev.dontneeda.pw';
   const challenge = attestationNoneChallenge;
 
@@ -268,7 +268,7 @@ Deno.test('should throw when attestation type is not webauthn.create', async () 
   mockDecodeClientData.restore();
 });
 
-Deno.test('should validate when attestation type is not webauthn.create and expected type provided', async () => {
+test('should validate when attestation type is not webauthn.create and expected type provided', async () => {
   const origin = 'https://dev.dontneeda.pw';
   const challenge = attestationNoneChallenge;
 
@@ -296,7 +296,7 @@ Deno.test('should validate when attestation type is not webauthn.create and expe
   mockDecodeClientData.restore();
 });
 
-Deno.test('should throw if an unexpected attestation format is specified', async () => {
+test('should throw if an unexpected attestation format is specified', async () => {
   const realAtteObj = decodeAttestationObject(
     isoBase64URL.toBuffer(attestationNone.response.attestationObject),
   );
@@ -324,7 +324,7 @@ Deno.test('should throw if an unexpected attestation format is specified', async
   mockDecodeAttestation.restore();
 });
 
-Deno.test('should throw error if assertion RP ID is unexpected value', async () => {
+test('should throw error if assertion RP ID is unexpected value', async () => {
   const authData = decodeAttestationObject(
     isoBase64URL.toBuffer(attestationNone.response.attestationObject),
   ).get('authData');
@@ -356,7 +356,7 @@ Deno.test('should throw error if assertion RP ID is unexpected value', async () 
   mockParseAuthData.restore();
 });
 
-Deno.test('should throw error if user was not present', async () => {
+test('should throw error if user was not present', async () => {
   const mockParseAuthData = stub(
     _parseAuthenticatorDataInternals,
     'stubThis',
@@ -388,7 +388,7 @@ Deno.test('should throw error if user was not present', async () => {
   mockParseAuthData.restore();
 });
 
-Deno.test('should throw if the authenticator does not give back credential ID', async () => {
+test('should throw if the authenticator does not give back credential ID', async () => {
   const mockParseAuthData = stub(
     _parseAuthenticatorDataInternals,
     'stubThis',
@@ -422,7 +422,7 @@ Deno.test('should throw if the authenticator does not give back credential ID', 
   mockParseAuthData.restore();
 });
 
-Deno.test('should throw if the authenticator does not give back credential public key', async () => {
+test('should throw if the authenticator does not give back credential public key', async () => {
   const mockParseAuthData = stub(
     _parseAuthenticatorDataInternals,
     'stubThis',
@@ -457,7 +457,7 @@ Deno.test('should throw if the authenticator does not give back credential publi
   mockParseAuthData.restore();
 });
 
-Deno.test('should throw error if no alg is specified in public key', async () => {
+test('should throw error if no alg is specified in public key', async () => {
   const pubKey = new Map();
   const mockDecodePubKey = stub(
     _decodeCredentialPublicKeyInternals,
@@ -480,7 +480,7 @@ Deno.test('should throw error if no alg is specified in public key', async () =>
   mockDecodePubKey.restore();
 });
 
-Deno.test('should throw error if unsupported alg is used', async () => {
+test('should throw error if unsupported alg is used', async () => {
   const pubKey = new Map();
   pubKey.set(COSEKEYS.alg, -999);
   const mockDecodePubKey = stub(
@@ -504,7 +504,7 @@ Deno.test('should throw error if unsupported alg is used', async () => {
   mockDecodePubKey.restore();
 });
 
-Deno.test.ignore('should not include authenticator info if not verified', async () => {
+test.skip('should not include authenticator info if not verified', async () => {
   // NOTE: This test previously required specifying { sanitizeOps: false } to reliably pass. It's
   // been removed but just in case I'm calling this flaky test out.
   const mockVerifySignature = stub(
@@ -527,7 +527,7 @@ Deno.test.ignore('should not include authenticator info if not verified', async 
   mockVerifySignature.restore();
 });
 
-Deno.test('should throw an error if user verification is required but user was not verified', async () => {
+test('should throw an error if user verification is required but user was not verified', async () => {
   const mockParseAuthData = stub(
     _parseAuthenticatorDataInternals,
     'stubThis',
@@ -557,7 +557,7 @@ Deno.test('should throw an error if user verification is required but user was n
   mockParseAuthData.restore();
 });
 
-Deno.test(
+test(
   'should optionally support user presence flag being false (as in conditional create)',
   async () => {
     const authData = decodeAttestationObject(
@@ -595,7 +595,7 @@ Deno.test(
   },
 );
 
-Deno.test('should validate TPM RSA response (SHA256)', async () => {
+test('should validate TPM RSA response (SHA256)', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2018-02-01T00:00:00.000Z,
@@ -646,7 +646,7 @@ Deno.test('should validate TPM RSA response (SHA256)', async () => {
   mockDate.restore();
 });
 
-Deno.test('should validate TPM RSA response (SHA1)', async () => {
+test('should validate TPM RSA response (SHA1)', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2018-02-01T00:00:00.000Z,
@@ -697,7 +697,7 @@ Deno.test('should validate TPM RSA response (SHA1)', async () => {
   mockDate.restore();
 });
 
-Deno.test('should validate Android-Key response', async () => {
+test('should validate Android-Key response', async () => {
   const expectedChallenge = '14e0d1b6-9c36-4849-aeec-ea64676449ef';
   const verification = await verifyRegistrationResponse({
     response: {
@@ -739,7 +739,7 @@ Deno.test('should validate Android-Key response', async () => {
   assertEquals(verification.registrationInfo?.rpID, 'dev.dontneeda.pw');
 });
 
-Deno.test('should support multiple possible origins', async () => {
+test('should support multiple possible origins', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationNone,
     expectedChallenge: attestationNoneChallenge,
@@ -755,7 +755,7 @@ Deno.test('should support multiple possible origins', async () => {
   assertEquals(verification.registrationInfo?.rpID, 'dev.dontneeda.pw');
 });
 
-Deno.test('should not set RPID in registrationInfo when not expected', async () => {
+test('should not set RPID in registrationInfo when not expected', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationNone,
     expectedChallenge: attestationNoneChallenge,
@@ -767,7 +767,7 @@ Deno.test('should not set RPID in registrationInfo when not expected', async () 
   assertEquals(verification.registrationInfo?.rpID, undefined);
 });
 
-Deno.test('should throw an error if origin not in list of expected origins', async () => {
+test('should throw an error if origin not in list of expected origins', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -781,7 +781,7 @@ Deno.test('should throw an error if origin not in list of expected origins', asy
   );
 });
 
-Deno.test('should support multiple possible RP IDs', async () => {
+test('should support multiple possible RP IDs', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationNone,
     expectedChallenge: attestationNoneChallenge,
@@ -792,7 +792,7 @@ Deno.test('should support multiple possible RP IDs', async () => {
   assert(verification.verified);
 });
 
-Deno.test('should throw an error if RP ID not in list of possible RP IDs', async () => {
+test('should throw an error if RP ID not in list of possible RP IDs', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -806,7 +806,7 @@ Deno.test('should throw an error if RP ID not in list of possible RP IDs', async
   );
 });
 
-Deno.test('should pass verification if custom challenge verifier returns true', async () => {
+test('should pass verification if custom challenge verifier returns true', async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id:
@@ -840,7 +840,7 @@ Deno.test('should pass verification if custom challenge verifier returns true', 
   assert(verification.verified);
 });
 
-Deno.test('should fail verification if custom challenge verifier returns false', async () => {
+test('should fail verification if custom challenge verifier returns false', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -854,7 +854,7 @@ Deno.test('should fail verification if custom challenge verifier returns false',
   );
 });
 
-Deno.test('should pass verification if custom challenge verifier returns a Promise that resolves with true', async () => {
+test('should pass verification if custom challenge verifier returns a Promise that resolves with true', async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id:
@@ -890,7 +890,7 @@ Deno.test('should pass verification if custom challenge verifier returns a Promi
   assert(verification.verified);
 });
 
-Deno.test('should fail verification if custom challenge verifier returns a Promise that resolves with false', async () => {
+test('should fail verification if custom challenge verifier returns a Promise that resolves with false', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -905,7 +905,7 @@ Deno.test('should fail verification if custom challenge verifier returns a Promi
   );
 });
 
-Deno.test('should fail verification if custom challenge verifier returns a Promise that rejects', async () => {
+test('should fail verification if custom challenge verifier returns a Promise that rejects', async () => {
   await assertRejects(
     () =>
       verifyRegistrationResponse({
@@ -919,7 +919,7 @@ Deno.test('should fail verification if custom challenge verifier returns a Promi
   );
 });
 
-Deno.test('should return credential backup info', async () => {
+test('should return credential backup info', async () => {
   const verification = await verifyRegistrationResponse({
     response: attestationNone,
     expectedChallenge: attestationNoneChallenge,
@@ -934,7 +934,7 @@ Deno.test('should return credential backup info', async () => {
   assertEquals(verification.registrationInfo?.credentialBackedUp, false);
 });
 
-Deno.test('should return authenticator extension output', async () => {
+test('should return authenticator extension output', async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id: 'E_Pko4wN1BXE23S0ftN3eQ',
@@ -975,7 +975,7 @@ Deno.test('should return authenticator extension output', async () => {
   );
 });
 
-Deno.test('should verify FIDO U2F attestation that specifies SHA-1 in its leaf cert public key', async () => {
+test('should verify FIDO U2F attestation that specifies SHA-1 in its leaf cert public key', async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id: '7wQcUWO9gG6mi2IktoZUogs8opnghY01DPYwaerMZms',
@@ -999,7 +999,7 @@ Deno.test('should verify FIDO U2F attestation that specifies SHA-1 in its leaf c
   assert(verification.verified);
 });
 
-Deno.test('should verify Packed attestation with RSA-PSS SHA-256 public key', async () => {
+test('should verify Packed attestation with RSA-PSS SHA-256 public key', async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id: 'n_dmFmW9UL7678vS4A3XSQLXvxWjefEkYVzEB5cNc_Q',
@@ -1023,7 +1023,7 @@ Deno.test('should verify Packed attestation with RSA-PSS SHA-256 public key', as
   assert(verification.verified);
 });
 
-Deno.test('should verify Packed attestation with RSA-PSS SHA-384 public key', async () => {
+test('should verify Packed attestation with RSA-PSS SHA-384 public key', async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id: 'BCwirFmTkTdTUjVqn_uSy-UOSK-iMBgzpfFunE-Hnb0',
@@ -1047,7 +1047,7 @@ Deno.test('should verify Packed attestation with RSA-PSS SHA-384 public key', as
   assert(verification.verified);
 });
 
-Deno.test('should enforce CTS check by default', async () => {
+test('should enforce CTS check by default', async () => {
   const mockDate = new FakeTime(new Date('2025-06-09T20:40:42.989Z'));
 
   await assertRejects(async () => {
@@ -1078,7 +1078,7 @@ Deno.test('should enforce CTS check by default', async () => {
   mockDate.restore();
 });
 
-Deno.test('should skip CTS check when enforcement option is false', async () => {
+test('should skip CTS check when enforcement option is false', async () => {
   const mockDate = new FakeTime(new Date('2025-06-09T20:40:42.989Z'));
 
   const verification = await verifyRegistrationResponse({

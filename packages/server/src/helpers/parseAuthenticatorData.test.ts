@@ -16,7 +16,7 @@ const authDataWithED = isoBase64URL.toBuffer(
   'base64',
 );
 
-Deno.test('should parse flags', () => {
+test('should parse flags', () => {
   const parsed = parseAuthenticatorData(authDataWithED);
 
   const { flags } = parsed;
@@ -29,7 +29,7 @@ Deno.test('should parse flags', () => {
   assertEquals(flags.ed, true);
 });
 
-Deno.test('should parse attestation data', () => {
+test('should parse attestation data', () => {
   const parsed = parseAuthenticatorData(authDataWithAT);
 
   const { credentialID, credentialPublicKey, aaguid, counter } = parsed;
@@ -52,7 +52,7 @@ Deno.test('should parse attestation data', () => {
   );
 });
 
-Deno.test('should parse extension data', () => {
+test('should parse extension data', () => {
   const parsed = parseAuthenticatorData(authDataWithED);
 
   const { extensionsData } = parsed;
@@ -65,7 +65,7 @@ Deno.test('should parse extension data', () => {
   );
 });
 
-Deno.test('should parse malformed authenticator data from Firefox 117', () => {
+test('should parse malformed authenticator data from Firefox 117', () => {
   /**
    * Firefox 117 is incorrectly serializing authenticator data, and using string values for kty and
    * crv at the same time. See the following issues for more context (I've dealt with this issue

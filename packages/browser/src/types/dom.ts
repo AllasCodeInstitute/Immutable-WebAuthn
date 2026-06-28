@@ -1,17 +1,17 @@
-// deno-fmt-ignore-file
+// bun-format-ignore-file
 /**
  * DO NOT MODIFY THESE FILES!
  *
  * These files were copied from the **types** package. To update this file, make changes to those
  * files instead and then run the following command from the monorepo root folder:
  *
- * deno task codegen:types
+ * bun run codegen:types
  */
 // BEGIN CODEGEN
 /**
  * Generated from typescript@5.6.3
  * To regenerate, run the following command from the package root:
- * deno task extract-dom-types
+ * bun run extract-dom-types
  */
 /**
  * Available only in secure contexts.

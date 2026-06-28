@@ -415,7 +415,7 @@ describe('WebAuthnError', () => {
   //    *
   //    * As a matter of fact I couldn't actually get any browser to respect the abort signal...
   //    */
-  //   Deno.test('should identify abort signal', async () => {
+  //   test('should identify abort signal', async () => {
   //     mockNavigatorCreate.mockRejectedValueOnce(AbortError);
 
   //     const rejected = await expect(startRegistration({ optionsJSON: goodOpts1 })).rejects;

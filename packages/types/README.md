@@ -11,7 +11,7 @@ The types in this package are codegen'd into **@simplewebauthn/browser** and
 typings here, run the following command to copy them into the other packages:
 
 ```sh
-deno task codegen
+bun run codegen
 ```
 
 Commit the copied-over code as well so that changes to them are tracked just like any other change

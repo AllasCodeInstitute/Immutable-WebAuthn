@@ -6,7 +6,7 @@ import { generateRegistrationOptions } from './generateRegistrationOptions.ts';
 import { _generateChallengeInternals } from '../helpers/generateChallenge.ts';
 import { isoBase64URL, isoUint8Array } from '../helpers/index.ts';
 
-Deno.test('should generate credential request options suitable for sending via JSON', async () => {
+test('should generate credential request options suitable for sending via JSON', async () => {
   const rpName = 'SimpleWebAuthn';
   const rpID = 'not.real';
   const challenge = 'totallyrandomvalue';
@@ -62,7 +62,7 @@ Deno.test('should generate credential request options suitable for sending via J
   );
 });
 
-Deno.test('should map excluded credential IDs if specified', async () => {
+test('should map excluded credential IDs if specified', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -88,7 +88,7 @@ Deno.test('should map excluded credential IDs if specified', async () => {
   );
 });
 
-Deno.test('defaults to 60 seconds if no timeout is specified', async () => {
+test('defaults to 60 seconds if no timeout is specified', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -99,7 +99,7 @@ Deno.test('defaults to 60 seconds if no timeout is specified', async () => {
   assertEquals(options.timeout, 60000);
 });
 
-Deno.test('defaults to none attestation if no attestation type is specified', async () => {
+test('defaults to none attestation if no attestation type is specified', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -110,7 +110,7 @@ Deno.test('defaults to none attestation if no attestation type is specified', as
   assertEquals(options.attestation, 'none');
 });
 
-Deno.test('defaults to empty string for displayName if no userDisplayName is specified', async () => {
+test('defaults to empty string for displayName if no userDisplayName is specified', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -121,7 +121,7 @@ Deno.test('defaults to empty string for displayName if no userDisplayName is spe
   assertEquals(options.user.displayName, '');
 });
 
-Deno.test('should set authenticatorSelection if specified', async () => {
+test('should set authenticatorSelection if specified', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -144,7 +144,7 @@ Deno.test('should set authenticatorSelection if specified', async () => {
   );
 });
 
-Deno.test('should set extensions if specified', async () => {
+test('should set extensions if specified', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -156,7 +156,7 @@ Deno.test('should set extensions if specified', async () => {
   assertEquals(options.extensions?.appid, 'simplewebauthn');
 });
 
-Deno.test('should include credProps if extensions are not provided', async () => {
+test('should include credProps if extensions are not provided', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -166,7 +166,7 @@ Deno.test('should include credProps if extensions are not provided', async () =>
   assertEquals(options.extensions?.credProps, true);
 });
 
-Deno.test('should include credProps if extensions are provided', async () => {
+test('should include credProps if extensions are provided', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -177,7 +177,7 @@ Deno.test('should include credProps if extensions are provided', async () => {
   assertEquals(options.extensions?.credProps, true);
 });
 
-Deno.test('should generate a challenge if one is not provided', async () => {
+test('should generate a challenge if one is not provided', async () => {
   const mockGenerateChallenge = stub(
     _generateChallengeInternals,
     'stubThis',
@@ -198,7 +198,7 @@ Deno.test('should generate a challenge if one is not provided', async () => {
   mockGenerateChallenge.restore();
 });
 
-Deno.test('should treat string challenges as UTF-8 strings', async () => {
+test('should treat string challenges as UTF-8 strings', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -212,7 +212,7 @@ Deno.test('should treat string challenges as UTF-8 strings', async () => {
   );
 });
 
-Deno.test('should use custom supported algorithm IDs as-is when provided', async () => {
+test('should use custom supported algorithm IDs as-is when provided', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -230,7 +230,7 @@ Deno.test('should use custom supported algorithm IDs as-is when provided', async
   );
 });
 
-Deno.test('should require resident key if residentKey option is absent but requireResidentKey is set to true', async () => {
+test('should require resident key if residentKey option is absent but requireResidentKey is set to true', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -244,7 +244,7 @@ Deno.test('should require resident key if residentKey option is absent but requi
   assertEquals(options.authenticatorSelection?.residentKey, 'required');
 });
 
-Deno.test('should discourage resident key if residentKey option is absent but requireResidentKey is set to false', async () => {
+test('should discourage resident key if residentKey option is absent but requireResidentKey is set to false', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -258,7 +258,7 @@ Deno.test('should discourage resident key if residentKey option is absent but re
   assertEquals(options.authenticatorSelection?.residentKey, undefined);
 });
 
-Deno.test('should prefer resident key if both residentKey and requireResidentKey options are absent', async () => {
+test('should prefer resident key if both residentKey and requireResidentKey options are absent', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -269,7 +269,7 @@ Deno.test('should prefer resident key if both residentKey and requireResidentKey
   assertEquals(options.authenticatorSelection?.residentKey, 'preferred');
 });
 
-Deno.test('should set requireResidentKey to true if residentKey if set to required', async () => {
+test('should set requireResidentKey to true if residentKey if set to required', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -283,7 +283,7 @@ Deno.test('should set requireResidentKey to true if residentKey if set to requir
   assertEquals(options.authenticatorSelection?.residentKey, 'required');
 });
 
-Deno.test('should set requireResidentKey to false if residentKey if set to preferred', async () => {
+test('should set requireResidentKey to false if residentKey if set to preferred', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -297,7 +297,7 @@ Deno.test('should set requireResidentKey to false if residentKey if set to prefe
   assertEquals(options.authenticatorSelection?.residentKey, 'preferred');
 });
 
-Deno.test('should set requireResidentKey to false if residentKey if set to discouraged', async () => {
+test('should set requireResidentKey to false if residentKey if set to discouraged', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',
@@ -311,7 +311,7 @@ Deno.test('should set requireResidentKey to false if residentKey if set to disco
   assertEquals(options.authenticatorSelection?.residentKey, 'discouraged');
 });
 
-Deno.test('should prefer Ed25519 in pubKeyCredParams', async () => {
+test('should prefer Ed25519 in pubKeyCredParams', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -322,7 +322,7 @@ Deno.test('should prefer Ed25519 in pubKeyCredParams', async () => {
   assertEquals(options.pubKeyCredParams[0].alg, -8);
 });
 
-Deno.test('should raise if string is specified for userID', async () => {
+test('should raise if string is specified for userID', async () => {
   await assertRejects(
     () =>
       generateRegistrationOptions({
@@ -337,7 +337,7 @@ Deno.test('should raise if string is specified for userID', async () => {
   );
 });
 
-Deno.test('should map undefined authenticator preference to empty hint', async () => {
+test('should map undefined authenticator preference to empty hint', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -349,7 +349,7 @@ Deno.test('should map undefined authenticator preference to empty hint', async (
   assertEquals(options.hints, []);
 });
 
-Deno.test('should map "securityKey" authenticator preference to hint and attachment', async () => {
+test('should map "securityKey" authenticator preference to hint and attachment', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -362,7 +362,7 @@ Deno.test('should map "securityKey" authenticator preference to hint and attachm
   assertEquals(options.authenticatorSelection?.authenticatorAttachment, 'cross-platform');
 });
 
-Deno.test('should map "localDevice" authenticator preference to hint and attachment', async () => {
+test('should map "localDevice" authenticator preference to hint and attachment', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -375,7 +375,7 @@ Deno.test('should map "localDevice" authenticator preference to hint and attachm
   assertEquals(options.authenticatorSelection?.authenticatorAttachment, 'platform');
 });
 
-Deno.test('should map "remoteDevice" authenticator preference to hint and attachment', async () => {
+test('should map "remoteDevice" authenticator preference to hint and attachment', async () => {
   const options = await generateRegistrationOptions({
     rpName: 'SimpleWebAuthn',
     rpID: 'not.real',
@@ -388,7 +388,7 @@ Deno.test('should map "remoteDevice" authenticator preference to hint and attach
   assertEquals(options.authenticatorSelection?.authenticatorAttachment, 'cross-platform');
 });
 
-Deno.test('should generate a reasonable user.id when passed a Node Buffer', async () => {
+test('should generate a reasonable user.id when passed a Node Buffer', async () => {
   const options = await generateRegistrationOptions({
     rpID: 'not.real',
     rpName: 'SimpleWebAuthn',

@@ -19,7 +19,7 @@ import {
 import { toHash } from '../helpers/toHash.ts';
 import { isoBase64URL, isoUint8Array } from '../helpers/iso/index.ts';
 
-Deno.test('should verify an assertion response', async () => {
+test('should verify an assertion response', async () => {
   const verification = await verifyAuthenticationResponse({
     response: assertionResponse,
     expectedChallenge: assertionChallenge,
@@ -32,7 +32,7 @@ Deno.test('should verify an assertion response', async () => {
   assertEquals(verification.verified, true);
 });
 
-Deno.test('should return authenticator info after verification', async () => {
+test('should return authenticator info after verification', async () => {
   const verification = await verifyAuthenticationResponse({
     response: assertionResponse,
     expectedChallenge: assertionChallenge,
@@ -51,7 +51,7 @@ Deno.test('should return authenticator info after verification', async () => {
   assertEquals(verification.authenticationInfo?.rpID, 'dev.dontneeda.pw');
 });
 
-Deno.test('should throw when response challenge is not expected value', async () => {
+test('should throw when response challenge is not expected value', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -66,7 +66,7 @@ Deno.test('should throw when response challenge is not expected value', async ()
   );
 });
 
-Deno.test('should throw when response origin is not expected value', async () => {
+test('should throw when response origin is not expected value', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -81,7 +81,7 @@ Deno.test('should throw when response origin is not expected value', async () =>
   );
 });
 
-Deno.test('should throw when assertion type is not webauthn.create', async () => {
+test('should throw when assertion type is not webauthn.create', async () => {
   const mockDecodeClientData = stub(
     _decodeClientDataJSONInternals,
     'stubThis',
@@ -110,7 +110,7 @@ Deno.test('should throw when assertion type is not webauthn.create', async () =>
   mockDecodeClientData.restore();
 });
 
-Deno.test('should throw error if user was not present', async () => {
+test('should throw error if user was not present', async () => {
   const mockParseAuthData = stub(
     _parseAuthenticatorDataInternals,
     'stubThis',
@@ -141,7 +141,7 @@ Deno.test('should throw error if user was not present', async () => {
   mockParseAuthData.restore();
 });
 
-Deno.test('should throw error if previous counter value is not less than in response', async () => {
+test('should throw error if previous counter value is not less than in response', async () => {
   // This'll match the `counter` value in `assertionResponse`, simulating a potential replay attack
   const badCounter = 144;
   const badDevice = {
@@ -164,7 +164,7 @@ Deno.test('should throw error if previous counter value is not less than in resp
   );
 });
 
-Deno.test('should throw error if assertion RP ID is unexpected value', async () => {
+test('should throw error if assertion RP ID is unexpected value', async () => {
   const mockParseAuthData = stub(
     _parseAuthenticatorDataInternals,
     'stubThis',
@@ -193,7 +193,7 @@ Deno.test('should throw error if assertion RP ID is unexpected value', async () 
   mockParseAuthData.restore();
 });
 
-Deno.test('should not compare counters if both are 0', async () => {
+test('should not compare counters if both are 0', async () => {
   const verification = await verifyAuthenticationResponse({
     response: assertionFirstTimeUsedResponse,
     expectedChallenge: assertionFirstTimeUsedChallenge,
@@ -206,7 +206,7 @@ Deno.test('should not compare counters if both are 0', async () => {
   assertEquals(verification.verified, true);
 });
 
-Deno.test('should throw an error if user verification is required but user was not verified', async () => {
+test('should throw an error if user verification is required but user was not verified', async () => {
   const actualData = parseAuthenticatorData(
     isoBase64URL.toBuffer(assertionResponse.response.authenticatorData),
   );
@@ -244,7 +244,7 @@ Deno.test('should throw an error if user verification is required but user was n
 });
 
 // TODO: Get a real TPM authentication response in here
-Deno.test('should verify TPM assertion', { ignore: true }, async () => {
+test('should verify TPM assertion', { ignore: true }, async () => {
   const expectedChallenge = 'dG90YWxseVVuaXF1ZVZhbHVlRXZlcnlBc3NlcnRpb24';
   const verification = await verifyAuthenticationResponse({
     response: {
@@ -274,7 +274,7 @@ Deno.test('should verify TPM assertion', { ignore: true }, async () => {
   assert(verification.verified);
 });
 
-Deno.test('should support multiple possible origins', async () => {
+test('should support multiple possible origins', async () => {
   const verification = await verifyAuthenticationResponse({
     response: assertionResponse,
     expectedChallenge: assertionChallenge,
@@ -288,7 +288,7 @@ Deno.test('should support multiple possible origins', async () => {
   assertEquals(verification.authenticationInfo?.origin, assertionOrigin);
 });
 
-Deno.test('should throw an error if origin not in list of expected origins', async () => {
+test('should throw an error if origin not in list of expected origins', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -303,7 +303,7 @@ Deno.test('should throw an error if origin not in list of expected origins', asy
   );
 });
 
-Deno.test('should support multiple possible RP IDs', async () => {
+test('should support multiple possible RP IDs', async () => {
   const verification = await verifyAuthenticationResponse({
     response: assertionResponse,
     expectedChallenge: assertionChallenge,
@@ -317,7 +317,7 @@ Deno.test('should support multiple possible RP IDs', async () => {
   assertEquals(verification.authenticationInfo?.rpID, 'dev.dontneeda.pw');
 });
 
-Deno.test('should throw an error if RP ID not in list of possible RP IDs', async () => {
+test('should throw an error if RP ID not in list of possible RP IDs', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -332,7 +332,7 @@ Deno.test('should throw an error if RP ID not in list of possible RP IDs', async
   );
 });
 
-Deno.test('should throw an error if type not the expected type', async () => {
+test('should throw an error if type not the expected type', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -349,7 +349,7 @@ Deno.test('should throw an error if type not the expected type', async () => {
   );
 });
 
-Deno.test('should throw an error if type not in list of expected types', async () => {
+test('should throw an error if type not in list of expected types', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -366,7 +366,7 @@ Deno.test('should throw an error if type not in list of expected types', async (
   );
 });
 
-Deno.test('should pass verification if custom challenge verifier returns true', async () => {
+test('should pass verification if custom challenge verifier returns true', async () => {
   const verification = await verifyAuthenticationResponse({
     response: {
       id:
@@ -409,7 +409,7 @@ Deno.test('should pass verification if custom challenge verifier returns true', 
   assert(verification.verified);
 });
 
-Deno.test('should fail verification if custom challenge verifier returns false', async () => {
+test('should fail verification if custom challenge verifier returns false', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -424,7 +424,7 @@ Deno.test('should fail verification if custom challenge verifier returns false',
   );
 });
 
-Deno.test('should pass verification if custom challenge verifier returns a Promise that resolves with true', async () => {
+test('should pass verification if custom challenge verifier returns a Promise that resolves with true', async () => {
   const verification = await verifyAuthenticationResponse({
     response: {
       id:
@@ -469,7 +469,7 @@ Deno.test('should pass verification if custom challenge verifier returns a Promi
   assert(verification.verified);
 });
 
-Deno.test('should fail verification if custom challenge verifier returns a Promise that resolves with false', async () => {
+test('should fail verification if custom challenge verifier returns a Promise that resolves with false', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -484,7 +484,7 @@ Deno.test('should fail verification if custom challenge verifier returns a Promi
   );
 });
 
-Deno.test('should fail verification if custom challenge verifier returns a Promise that rejects', async () => {
+test('should fail verification if custom challenge verifier returns a Promise that rejects', async () => {
   await assertRejects(
     () =>
       verifyAuthenticationResponse({
@@ -499,7 +499,7 @@ Deno.test('should fail verification if custom challenge verifier returns a Promi
   );
 });
 
-Deno.test('should return authenticator extension output', async () => {
+test('should return authenticator extension output', async () => {
   const verification = await verifyAuthenticationResponse({
     response: {
       response: {
@@ -547,7 +547,7 @@ Deno.test('should return authenticator extension output', async () => {
   );
 });
 
-Deno.test('should return credential backup info', async () => {
+test('should return credential backup info', async () => {
   const verification = await verifyAuthenticationResponse({
     response: assertionResponse,
     expectedChallenge: assertionChallenge,
@@ -564,7 +564,7 @@ Deno.test('should return credential backup info', async () => {
   assertEquals(verification.authenticationInfo?.credentialBackedUp, false);
 });
 
-Deno.test('should return user verified flag after successful auth', async () => {
+test('should return user verified flag after successful auth', async () => {
   const verification = await verifyAuthenticationResponse({
     response: assertionResponse,
     expectedChallenge: assertionChallenge,

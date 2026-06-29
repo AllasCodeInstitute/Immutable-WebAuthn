@@ -3,7 +3,7 @@ import { FakeTime } from '@std/testing/time';
 
 import { verifyRegistrationResponse } from '../../verifyRegistrationResponse.ts';
 
-Deno.test('should verify TPM response', async () => {
+test('should verify TPM response', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2018-02-01T00:00:00.000Z,
@@ -36,7 +36,7 @@ Deno.test('should verify TPM response', async () => {
   mockDate.restore();
 });
 
-Deno.test('should verify SHA1 TPM response', async () => {
+test('should verify SHA1 TPM response', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2018-02-01T00:00:00.000Z,
@@ -75,7 +75,7 @@ Deno.test('should verify SHA1 TPM response', async () => {
   mockDate.restore();
 });
 
-Deno.test('should verify SHA256 TPM response', async () => {
+test('should verify SHA256 TPM response', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2018-02-01T00:00:00.000Z,
@@ -114,7 +114,7 @@ Deno.test('should verify SHA256 TPM response', async () => {
   mockDate.restore();
 });
 
-Deno.test('should verify TPM response with spec-compliant tcgAtTpm SAN structure', async () => {
+test('should verify TPM response with spec-compliant tcgAtTpm SAN structure', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2020-08-27T15:12:30.000Z,
@@ -158,7 +158,7 @@ Deno.test('should verify TPM response with spec-compliant tcgAtTpm SAN structure
   mockDate.restore();
 });
 
-Deno.test('should verify TPM response with non-spec-compliant tcgAtTpm SAN structure', async () => {
+test('should verify TPM response with non-spec-compliant tcgAtTpm SAN structure', async () => {
   /**
    * Name [
    *   RelativeDistinguishedName [
@@ -196,7 +196,7 @@ Deno.test('should verify TPM response with non-spec-compliant tcgAtTpm SAN struc
   mockDate.restore();
 });
 
-Deno.test('should verify TPM response with ECC public area type', async () => {
+test('should verify TPM response with ECC public area type', async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id: 'hsS2ywFz_LWf9-lC35vC9uJTVD3ZCVdweZvESUbjXnQ',
@@ -219,7 +219,7 @@ Deno.test('should verify TPM response with ECC public area type', async () => {
   assertEquals(verification.verified, true);
 });
 
-Deno.test(
+test(
   'should succeed if id-fido-gen-ce-aaguid extension is present and matches AAGUID in auth data',
   async () => {
     const verification = await verifyRegistrationResponse({
@@ -253,7 +253,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+test(
   'should fail if id-fido-gen-ce-aaguid extension is present and does not match AAGUID in auth data',
   async () => {
     // const response = await ;

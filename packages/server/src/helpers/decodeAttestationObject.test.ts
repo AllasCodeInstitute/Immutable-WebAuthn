@@ -3,7 +3,7 @@ import { assert, assertEquals } from '@std/assert';
 import { decodeAttestationObject } from './decodeAttestationObject.ts';
 import { isoBase64URL } from './iso/index.ts';
 
-Deno.test('should decode base64url-encoded indirect attestationObject', () => {
+test('should decode base64url-encoded indirect attestationObject', () => {
   const decoded = decodeAttestationObject(
     isoBase64URL.toBuffer(
       'o2NmbXRkbm9uZWdhdHRTdG10oGhhdXRoRGF0YVjEAbElFazplpnc037DORGDZNjDq86cN9vm6' +
@@ -25,7 +25,7 @@ Deno.test('should decode base64url-encoded indirect attestationObject', () => {
   assert(decoded.get('authData'));
 });
 
-Deno.test('should decode base64url-encoded direct attestationObject', () => {
+test('should decode base64url-encoded direct attestationObject', () => {
   const decoded = decodeAttestationObject(
     isoBase64URL.toBuffer(
       'o2NmbXRoZmlkby11MmZnYXR0U3RtdKJjc2lnWEgwRgIhAK40WxA0t7py7AjEXvwGwTlmqlvrOk' +

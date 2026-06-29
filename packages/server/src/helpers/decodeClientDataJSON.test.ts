@@ -2,7 +2,7 @@ import { assertEquals } from '@std/assert';
 
 import { decodeClientDataJSON } from './decodeClientDataJSON.ts';
 
-Deno.test('should convert base64url-encoded attestation clientDataJSON to JSON', () => {
+test('should convert base64url-encoded attestation clientDataJSON to JSON', () => {
   assertEquals(
     decodeClientDataJSON(
       'eyJ0eXBlIjoid2ViYXV0aG4uY3JlYXRlIiwiY2hhbGxlbmdlIjoiWko0YW12QnpOUGVMb3lLVE04bDlqamFmMDhXc0V0TG5OSENGZnhacGEybjlfU21NUnR5VjZlYlNPSUFfUGNsOHBaUjl5Y1ZhaW5SdV9rUDhRaTZiemciLCJvcmlnaW4iOiJodHRwczovL3dlYmF1dGhuLmlvIn0',

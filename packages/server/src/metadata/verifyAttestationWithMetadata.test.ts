@@ -5,7 +5,7 @@ import { verifyAttestationWithMetadata } from './verifyAttestationWithMetadata.t
 import type { MetadataStatement } from '../metadata/mdsTypes.ts';
 import { isoBase64URL } from '../helpers/iso/index.ts';
 
-Deno.test('should not verify attestation with revoked certificate in metadata (android-safetynet)', async () => {
+test('should not verify attestation with revoked certificate in metadata (android-safetynet)', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2022-01-25T10:00:34.000Z,
@@ -83,7 +83,7 @@ Deno.test('should not verify attestation with revoked certificate in metadata (a
   fakedNow.restore();
 });
 
-Deno.test('should verify attestation with rsa_emsa_pkcs1_sha256_raw authenticator algorithm in metadata', async () => {
+test('should verify attestation with rsa_emsa_pkcs1_sha256_raw authenticator algorithm in metadata', async () => {
   const metadataStatement: MetadataStatement = {
     legalHeader: 'https://fidoalliance.org/metadata/metadata-statement-legal-header/',
     aaguid: '08987058-cadc-4b81-b6e1-30de50dcbe96',
@@ -135,7 +135,7 @@ Deno.test('should verify attestation with rsa_emsa_pkcs1_sha256_raw authenticato
   assertEquals(verified, true);
 });
 
-Deno.test('should not validate certificate path when authenticator is self-referencing its attestation statement certificates', async () => {
+test('should not validate certificate path when authenticator is self-referencing its attestation statement certificates', async () => {
   const metadataStatement: MetadataStatement = {
     legalHeader: 'https://fidoalliance.org/metadata/metadata-statement-legal-header/',
     description:
@@ -203,7 +203,7 @@ Deno.test('should not validate certificate path when authenticator is self-refer
   assertEquals(verified, true);
 });
 
-Deno.test('should verify idmelon attestation with updated root certificate', async () => {
+test('should verify idmelon attestation with updated root certificate', async () => {
   // Faking time to something that'll satisfy all of these ranges:
   // {
   //   notBefore: 2018-12-22T17:43:28.000Z,
@@ -278,7 +278,7 @@ Deno.test('should verify idmelon attestation with updated root certificate', asy
   assertEquals(verified, true);
 });
 
-Deno.test('should verify when trust anchor is an intermediate certificate', async () => {
+test('should verify when trust anchor is an intermediate certificate', async () => {
   /**
    * See https://github.com/MasterKale/SimpleWebAuthn/issues/647 for more context, basically
    * HID sells authenticators that are "unique" for their use of intermediate certificates as trust

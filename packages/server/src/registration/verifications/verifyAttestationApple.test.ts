@@ -3,17 +3,17 @@ import { assertEquals } from '@std/assert';
 import { verifyRegistrationResponse } from '../verifyRegistrationResponse.ts';
 
 /**
- * TODO (Aug 2023): This test has to be ignored for now because Deno doesn't
+ * TODO (Aug 2023): This test has to be ignored for now because this runtime doesn't
  * support signature verification if the key curve and hash algorithm
  * aren't one of two supported combinations. In this test the key curve is
  * P-384 and the hash alg is SHA-256...
  *
- * See https://deno.land/x/deno@v2.0.4/ext/crypto/00_crypto.js?source#L1317
+ * See the WebCrypto implementation notes
  *
  * I raised an issue about this here:
  * https://github.com/denoland/deno/issues/20198
  */
-Deno.test('should verify Apple attestation', { ignore: true }, async () => {
+test('should verify Apple attestation', { ignore: true }, async () => {
   const verification = await verifyRegistrationResponse({
     response: {
       id: 'J4lAqPXhefDrUD7oh5LQMbBH5TE',

@@ -1,75 +1,32 @@
-import { build, emptyDir } from '@deno/dnt';
-
-import denoJSON from './deno.json' with { type: 'json' };
+import { copyFile, mkdir, rm } from 'node:fs/promises';
+import packageJSON from './package.json' with { type: 'json' };
 
 const outDir = './npm';
 
-await emptyDir(outDir);
+await rm(outDir, { recursive: true, force: true });
+await mkdir(`${outDir}/dist`, { recursive: true });
 
-await build({
-  entryPoints: [
-    { name: '.', path: './src/index.ts' },
-    { name: './helpers', path: './src/helpers/index.ts' },
-  ],
-  outDir,
-  importMap: './deno.json',
-  shims: {
-    deno: {
-      test: 'dev',
-    },
-  },
-  // TODO: Re-enable if https://github.com/denoland/dnt/issues/331 can get resolved
-  typeCheck: false,
-  // Don't test the NPM build afterwards because @std/assert isn't available
-  test: false,
-  // package.json values
-  package: {
-    name: '@simplewebauthn/server',
-    version: denoJSON.version,
-    description: 'SimpleWebAuthn for Servers',
-    license: 'MIT',
-    author: 'Matthew Miller <matthew@millerti.me>',
-    repository: {
-      type: 'git',
-      url: 'git+https://github.com/MasterKale/SimpleWebAuthn.git',
-      directory: 'packages/server',
-    },
-    homepage: 'https://github.com/MasterKale/SimpleWebAuthn/tree/master/packages/server#readme',
-    publishConfig: {
-      access: 'public',
-    },
-    engines: {
-      node: '>=20.0.0',
-    },
-    bugs: {
-      url: 'https://github.com/MasterKale/SimpleWebAuthn/issues',
-    },
-    keywords: [
-      'typescript',
-      'webauthn',
-      'passkeys',
-      'fido',
-      'node',
-    ],
-    typesVersions: {
-      '*': {
-        '.': [
-          'esm/index.d.ts',
-        ],
-        'helpers': [
-          'esm/helpers/index.d.ts',
-        ],
-      },
-    },
-    dependencies: {},
-  },
-  // Map from Deno package to NPM package for Node build
-  mappings: {},
-  // TypeScript tsconfig.json config
-  compilerOptions: {
-    lib: ['ES2021'],
-  },
+await Bun.build({
+  entrypoints: ['./src/index.ts', './src/helpers/index.ts'],
+  outdir: `${outDir}/dist`,
+  target: 'node',
+  format: 'esm',
+  sourcemap: 'external',
+  external: Object.keys(packageJSON.dependencies ?? {}),
 });
 
-Deno.copyFileSync('LICENSE.md', `${outDir}/LICENSE.md`);
-Deno.copyFileSync('README.md', `${outDir}/README.md`);
+await Bun.write(`${outDir}/package.json`, JSON.stringify({
+  name: packageJSON.name,
+  version: packageJSON.version,
+  type: 'module',
+  main: './dist/index.js',
+  module: './dist/index.js',
+  exports: {
+    '.': './dist/index.js',
+    './helpers': './dist/helpers/index.js'
+  },
+  dependencies: packageJSON.dependencies,
+}, null, 2));
+
+await copyFile('LICENSE.md', `${outDir}/LICENSE.md`);
+await copyFile('README.md', `${outDir}/README.md`);

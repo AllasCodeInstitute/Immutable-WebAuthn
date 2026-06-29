@@ -5,7 +5,7 @@ import { verifyEC2 } from './verifyEC2.ts';
 import { unwrapEC2Signature } from './unwrapEC2Signature.ts';
 import { isoBase64URL } from '../index.ts';
 
-Deno.test(
+test(
   'should verify a signature signed with an P-256 public key',
   async () => {
     const cosePublicKey: COSEPublicKeyEC2 = new Map();
@@ -36,7 +36,7 @@ Deno.test(
   },
 );
 
-Deno.test(
+test(
   'should verify a signature signed with an P-384 public key',
   async () => {
     const cosePublicKey: COSEPublicKeyEC2 = new Map();
@@ -67,8 +67,8 @@ Deno.test(
   },
 );
 
-Deno.test({
-  // This test is currently ignored, as Deno's implementation of `WebCrypto.subtle` API does not
+test({
+  // This test is currently ignored, as this runtime's implementation of the `WebCrypto.subtle` API does not
   // support the P-521 curve at the moment.
   ignore: true,
   name: 'should verify a signature signed with an P-521 public key',

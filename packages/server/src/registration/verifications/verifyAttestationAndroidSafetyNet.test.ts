@@ -50,7 +50,7 @@ async function getResponseValues(response: RegistrationResponseJSON) {
  * how to generate a signature after modifying the payload with a `timestampMs`
  * we can dynamically set
  */
-Deno.test('should verify Android SafetyNet attestation', async () => {
+test('should verify Android SafetyNet attestation', async () => {
   const {
     attStmt,
     authData,
@@ -93,7 +93,7 @@ Deno.test('should verify Android SafetyNet attestation', async () => {
   mockDate.restore();
 });
 
-Deno.test('should throw error when timestamp is not within one minute of now', async () => {
+test('should throw error when timestamp is not within one minute of now', async () => {
   const {
     attStmt,
     authData,
@@ -121,7 +121,7 @@ Deno.test('should throw error when timestamp is not within one minute of now', a
   );
 });
 
-Deno.test('should reject when a revoked certificate is found', async () => {
+test('should reject when a revoked certificate is found', async () => {
   const {
     aaguid,
     attStmt,
